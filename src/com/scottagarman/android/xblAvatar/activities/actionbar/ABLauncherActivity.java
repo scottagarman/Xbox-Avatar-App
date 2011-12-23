@@ -1,6 +1,5 @@
 package com.scottagarman.android.xblAvatar.activities.actionbar;
 
-import android.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
@@ -22,12 +21,12 @@ public class ABLauncherActivity extends Activity {
             actionBar.setDisplayShowHomeEnabled(false);
 
             ActionBar.Tab tab = actionBar.newTab()
-                    .setIcon(R.drawable.ic_dialog_email)
+                    .setIcon(android.R.drawable.ic_dialog_email)
                     .setTabListener(new TabListener<HomeFragment>(this, "first", HomeFragment.class));
             actionBar.addTab(tab);
 
             tab = actionBar.newTab()
-                .setIcon(R.drawable.ic_dialog_dialer)
+                .setIcon(android.R.drawable.ic_dialog_dialer)
                 .setTabListener(new TabListener<HomeFragment>(this, "second", HomeFragment.class));
             actionBar.addTab(tab);
 

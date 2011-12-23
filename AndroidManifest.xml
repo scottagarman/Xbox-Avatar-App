@@ -18,7 +18,7 @@
         </activity>
 
         <!-- Activities -->
-        <activity android:name=".activities.actionbar.ABLauncherActivity"/>
+        <activity android:name=".activities.actionbar.ABLauncherActivity" android:theme="@style/CustomActivityTheme"/>
 
     </application>
 
