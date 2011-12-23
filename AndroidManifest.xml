@@ -23,7 +23,7 @@
     </application>
 
     <!-- SDK MIN -->
-    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="14"/>
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="14"/>
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
