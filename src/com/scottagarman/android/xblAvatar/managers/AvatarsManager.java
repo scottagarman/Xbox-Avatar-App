@@ -78,12 +78,16 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
     }
     
     public void addAvatar(String tag) {
-        mAvatarList.put(tag, generateUrl(tag));
+        mAvatarList.put(tag, generateThumbUrl(tag));
         AvatarsModel.saveAvatarList(mCtx, mAvatarList);
     }
     
-    private String generateUrl(String tag) {
-        return tag; //TODO: return url for big avatar
+    private String generateBodyUrl(String tag) {
+        return "http://avatar.xboxlive.com/avatar/"+ tag.trim() +"/avatar-body.png"; // check to make sure this is correct
+    }
+
+    private String generateThumbUrl(String tag) {
+        return "http://avatar.xboxlive.com/avatar/"+ tag.trim() +"/avatarpic-l.png"; // check to make sure this is correct
     }
     
     public void remoteAvatarAtIndex(int index) {
