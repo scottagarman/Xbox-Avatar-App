@@ -1,12 +1,11 @@
 package com.scottagarman.android.xblAvatar.adapters;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
@@ -40,8 +39,8 @@ public class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabLi
         }
     }
 
-    public TabsAdapter(Activity activity, ViewPager pager) {
-        super(activity.getFragmentManager());
+    public TabsAdapter(FragmentActivity activity, ViewPager pager) {
+        super(activity.getSupportFragmentManager());
         mContext = activity;
         mActionBar = activity.getActionBar();
         mViewPager = pager;
@@ -83,7 +82,7 @@ public class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabLi
     }
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
         Object tag = tab.getTag();
         for (int i=0; i<mTabs.size(); i++) {
             if (mTabs.get(i) == tag) {
@@ -93,10 +92,10 @@ public class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabLi
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
     }
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction fragmentTransaction) {
     }
 }

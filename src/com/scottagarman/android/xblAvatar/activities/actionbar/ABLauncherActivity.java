@@ -1,15 +1,15 @@
 package com.scottagarman.android.xblAvatar.activities.actionbar;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import com.scottagarman.android.xblAvatar.activities.fragments.AboutFragment;
 import com.scottagarman.android.xblAvatar.activities.fragments.FriendsListFragment;
 import com.scottagarman.android.xblAvatar.activities.fragments.HomeFragment;
 import com.scottagarman.android.xblAvatar.adapters.TabsAdapter;
 
-public class ABLauncherActivity extends Activity {
+public class ABLauncherActivity extends FragmentActivity {
 
     private ViewPager mViewPager;
     private TabsAdapter mTabsAdapter;
@@ -41,8 +41,6 @@ public class ABLauncherActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
         // save current selected tab
         outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
     }

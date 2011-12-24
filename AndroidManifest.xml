@@ -12,6 +12,7 @@
         <!-- Launcher Activity -->
         <activity android:name=".activities.LauncherActivity"
                   android:label="@string/app_name"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
                   >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
