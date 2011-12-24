@@ -37,17 +37,8 @@ public class FriendsListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.add("Add")
-		    .setIcon(android.R.drawable.ic_input_add)
-            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    return true;
-                }
-            })
-            .setTitle("Add")
-		    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
+        inflater.inflate(R.menu.friends_list_menu, menu);
     }
 
 }
