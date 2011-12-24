@@ -1,11 +1,13 @@
 package com.scottagarman.android.xblAvatar.activities.actionbar;
 
+import android.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import com.scottagarman.android.xblAvatar.TabListener;
 import com.scottagarman.android.xblAvatar.activities.fragments.FriendsListFragment;
 import com.scottagarman.android.xblAvatar.activities.fragments.HomeFragment;
+import com.scottagarman.android.xblAvatar.activities.fragments.AboutFragment;
 
 public class ABLauncherActivity extends Activity {
     @Override
@@ -29,6 +31,11 @@ public class ABLauncherActivity extends Activity {
             tab = actionBar.newTab()
                 .setIcon(android.R.drawable.ic_dialog_dialer)
                 .setTabListener(new TabListener<FriendsListFragment>(this, "second", FriendsListFragment.class));
+            actionBar.addTab(tab);
+
+            tab = actionBar.newTab()
+                .setIcon(R.drawable.ic_dialog_alert)
+                .setTabListener(new TabListener<AboutFragment>(this, "third", AboutFragment.class));
             actionBar.addTab(tab);
 
             // check for last open tab
