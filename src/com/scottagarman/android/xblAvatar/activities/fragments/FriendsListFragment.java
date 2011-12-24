@@ -2,9 +2,7 @@ package com.scottagarman.android.xblAvatar.activities.fragments;
 
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import com.scottagarman.android.xblAvatar.R;
 import com.scottagarman.android.xblAvatar.adapters.FriendsListAdapter;
 
@@ -15,6 +13,8 @@ public class FriendsListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         mAdapter = new FriendsListAdapter(getActivity());
     }
@@ -33,4 +33,21 @@ public class FriendsListFragment extends ListFragment {
         mView = (ViewGroup) inflater.inflate(R.layout.fragment_friends_list, container, false);
         return mView;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.add("Add")
+		    .setIcon(android.R.drawable.ic_input_add)
+            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    return true;
+                }
+            })
+            .setTitle("Add")
+		    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+    }
+
 }

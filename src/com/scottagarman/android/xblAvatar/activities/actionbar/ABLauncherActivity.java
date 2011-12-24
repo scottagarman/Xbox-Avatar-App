@@ -5,9 +5,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import com.scottagarman.android.xblAvatar.TabListener;
+import com.scottagarman.android.xblAvatar.activities.fragments.AboutFragment;
 import com.scottagarman.android.xblAvatar.activities.fragments.FriendsListFragment;
 import com.scottagarman.android.xblAvatar.activities.fragments.HomeFragment;
-import com.scottagarman.android.xblAvatar.activities.fragments.AboutFragment;
 
 public class ABLauncherActivity extends Activity {
     @Override

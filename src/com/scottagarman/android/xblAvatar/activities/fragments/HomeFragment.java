@@ -2,9 +2,7 @@ package com.scottagarman.android.xblAvatar.activities.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import com.scottagarman.android.xblAvatar.R;
 
 public class HomeFragment extends Fragment {
