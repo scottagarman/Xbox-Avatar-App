@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import com.scottagarman.android.xblAvatar.TabListener;
+import com.scottagarman.android.xblAvatar.activities.fragments.FriendsListFragment;
 import com.scottagarman.android.xblAvatar.activities.fragments.HomeFragment;
 
 public class ABLauncherActivity extends Activity {
@@ -27,7 +28,7 @@ public class ABLauncherActivity extends Activity {
 
             tab = actionBar.newTab()
                 .setIcon(android.R.drawable.ic_dialog_dialer)
-                .setTabListener(new TabListener<HomeFragment>(this, "second", HomeFragment.class));
+                .setTabListener(new TabListener<FriendsListFragment>(this, "second", FriendsListFragment.class));
             actionBar.addTab(tab);
 
             // check for last open tab
