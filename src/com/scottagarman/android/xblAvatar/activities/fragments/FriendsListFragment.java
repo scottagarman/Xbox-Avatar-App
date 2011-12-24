@@ -1,7 +1,7 @@
 package com.scottagarman.android.xblAvatar.activities.fragments;
 
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.*;
 import com.scottagarman.android.xblAvatar.R;
 import com.scottagarman.android.xblAvatar.adapters.FriendsListAdapter;

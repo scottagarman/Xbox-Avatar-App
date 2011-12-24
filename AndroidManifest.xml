@@ -21,6 +21,7 @@
 
         <!-- Activities -->
         <activity android:name=".activities.actionbar.ABLauncherActivity" android:theme="@style/CustomActivityTheme"/>
+        <activity android:name=".activities.nonactionbar.NABLauncherActivity" android:theme="@android:style/Theme.NoTitleBar"/>
 
     </application>
 
