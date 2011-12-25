@@ -3,7 +3,8 @@ package com.scottagarman.android.xblAvatar.models;
 import android.content.Context;
 import com.scottagarman.android.xblAvatar.utils.FileIOHelper;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AvatarsModel {
 
@@ -15,7 +16,7 @@ public class AvatarsModel {
         FileIOHelper.readFromInternalStorage(ctx, FILE_NAME, new FileIOHelper.FileIOListener() {
             @Override
             public void onSuccess(Object obj) {
-                if(listener != null) listener.onAvatarsModelCompete((LinkedHashMap) obj);
+                if(listener != null) listener.onAvatarsModelCompete((ArrayList<HashMap<String, String>>) obj);
             }
 
             @Override
@@ -26,7 +27,7 @@ public class AvatarsModel {
 
     }
 
-    public static void saveAvatarList(Context ctx, LinkedHashMap list) {
+    public static void saveAvatarList(Context ctx, ArrayList<HashMap<String, String>> list) {
         FileIOHelper.saveToInternalStorage(ctx, list, FILE_NAME, new FileIOHelper.FileIOListener() {
             @Override
             public void onSuccess(Object obj) {
@@ -42,7 +43,7 @@ public class AvatarsModel {
 
 
     public interface AvatarsModelListener {
-        public void onAvatarsModelCompete(LinkedHashMap list);
+        public void onAvatarsModelCompete(ArrayList<HashMap<String, String>> list);
         public void onAvatarsModelFail();
     }
     

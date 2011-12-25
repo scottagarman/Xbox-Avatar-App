@@ -8,8 +8,8 @@ import com.scottagarman.android.xblAvatar.models.AvatarsModel;
 import com.scottagarman.android.xblAvatar.operations.IndexedNetworkOperation;
 import com.scottagarman.android.xblAvatar.operations.NetworkOperation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class AvatarsManager implements NetworkOperation.NetworkOperationCompleteListener {
     private static final int MAX_THUMBS = 50;
@@ -20,7 +20,7 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
     
     private Context mCtx;
     private AvatarsManagerListener mListener;
-    private LinkedHashMap<String, String> mAvatarList;
+    private ArrayList<HashMap<String, String>>  mAvatarList;
 
     // Thumbs
     private LruCache mThumbs;
@@ -52,7 +52,7 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
     public void loadAvatars() {
         AvatarsModel.getAvatarList(mCtx, new AvatarsModel.AvatarsModelListener() {
             @Override
-            public void onAvatarsModelCompete(LinkedHashMap list) {
+            public void onAvatarsModelCompete(ArrayList<HashMap<String, String>> list) {
                 mAvatarList = list;
                 if(mListener != null) mListener.onAvatarsLoaded();
             }
@@ -60,7 +60,7 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
             @Override
             public void onAvatarsModelFail() {
                 // empty, make a new one
-                mAvatarList = new LinkedHashMap<String, String>();
+                mAvatarList = new ArrayList<HashMap<String, String>>();
                 if(mListener != null) mListener.onAvatarsLoaded();
             }
         });
@@ -72,13 +72,20 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
         return 0;
     }
 
-    public String getUrlAtIndex(int index) {
-        if(mAvatarList != null) return mAvatarList.get(index);
+    public String getAvatarUrlAtIndex(int index) {
+        if(mAvatarList != null) return generateBodyUrl(mAvatarList.get(index).get("tag"));
+        return null;
+    }
+
+    public String getThumbUrlAtIndex(int index) {
+        if(mAvatarList != null) return generateThumbUrl(mAvatarList.get(index).get("tag"));
         return null;
     }
     
     public void addAvatar(String tag) {
-        mAvatarList.put(tag, generateThumbUrl(tag));
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("tag", tag);
+        mAvatarList.add(map);
         AvatarsModel.saveAvatarList(mCtx, mAvatarList);
     }
     
@@ -97,20 +104,13 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
         }
     }
     
-    public void removeAvatarByTag(String tag) {
-        if(mAvatarList != null && mAvatarList.containsKey(tag)){
-            mAvatarList.remove(tag);
-            AvatarsModel.saveAvatarList(mCtx, mAvatarList); //TODO: get async ones
-        }
-    }
-    
     public Bitmap getLargeBitmapAtIndex(int index) {
-        byte[] image = (byte[]) mAvatars.get(mAvatarList.get(index));
+        byte[] image = (byte[]) mAvatars.get(mAvatarList.get(index).get("tag"));
         if(image != null) {
             return BitmapFactory.decodeByteArray(image, 0, image.length);
-        }else if(mAvatarDownloaders.get(mAvatarList.get(index)) == null){
-            IndexedNetworkOperation downloader = new IndexedNetworkOperation(mAvatarList.get(index), this, index, SECTION_AVATARS);
-            mAvatarDownloaders.put(mAvatarList.get(index), downloader);
+        }else if(mAvatarDownloaders.get(mAvatarList.get(index).get("tag")) == null){
+            IndexedNetworkOperation downloader = new IndexedNetworkOperation(generateBodyUrl(mAvatarList.get(index).get("tag")), this, index, SECTION_AVATARS);
+            mAvatarDownloaders.put(mAvatarList.get(index).get("tag"), downloader);
             downloader.beginOperation();
         }
 
@@ -118,12 +118,12 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
     }
 
     public Bitmap getBitmapAtIndex(int index) {
-        byte[] image = (byte[]) mThumbs.get(mAvatarList.get(index));
+        byte[] image = (byte[]) mThumbs.get(mAvatarList.get(index).get("tag"));
         if(image != null) {
             return BitmapFactory.decodeByteArray(image, 0, image.length);
-        }else if(mThumbDownloaders.get(mAvatarList.get(index)) == null){
-            IndexedNetworkOperation downloader = new IndexedNetworkOperation(mAvatarList.get(index), this, index, SECTION_THUMB);
-            mThumbDownloaders.put(mAvatarList.get(index), downloader);
+        }else if(mThumbDownloaders.get(mAvatarList.get(index).get("tag")) == null){
+            IndexedNetworkOperation downloader = new IndexedNetworkOperation(generateThumbUrl(mAvatarList.get(index).get("tag")), this, index, SECTION_THUMB);
+            mThumbDownloaders.put(mAvatarList.get(index).get("tag"), downloader);
             downloader.beginOperation();
         }
 
@@ -134,15 +134,15 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
         if(operation.responseData != null && operation.responseData.length > 0) {
             switch (((IndexedNetworkOperation)operation).section) {
                 case SECTION_THUMB:
-                    mThumbs.put(mAvatarList.get(((IndexedNetworkOperation) operation).index), operation.responseData);
+                    mThumbs.put(mAvatarList.get(((IndexedNetworkOperation) operation).index).get("tag"), operation.responseData);
                     if(mListener != null) mListener.onAvatarThumbLoaded(((IndexedNetworkOperation) operation).index);
-                    mThumbDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index));
+                    mThumbDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index).get("tag"));
                     break;
 
                 case SECTION_AVATARS :
-                    mAvatars.put(mAvatarList.get(((IndexedNetworkOperation) operation).index), operation.responseData);
+                    mAvatars.put(mAvatarList.get(((IndexedNetworkOperation) operation).index).get("tag"), operation.responseData);
                     if(mListener != null) mListener.onAvatarLoaded(((IndexedNetworkOperation) operation).index);
-                    mAvatarDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index));
+                    mAvatarDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index).get("tag"));
                     break;
 
                 default:
@@ -156,11 +156,11 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
     public void onNetworkOperationCompleteWithError(NetworkOperation operation) {
         switch (((IndexedNetworkOperation)operation).section) {
             case SECTION_THUMB:
-                mThumbDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index));
+                mThumbDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index).get("tag"));
                 break;
 
             case SECTION_AVATARS:
-                mAvatarDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index));
+                mAvatarDownloaders.remove(mAvatarList.get(((IndexedNetworkOperation) operation).index).get("tag"));
                 break;
 
             default:
@@ -174,7 +174,6 @@ public class AvatarsManager implements NetworkOperation.NetworkOperationComplete
         public void onAvatarThumbLoaded(int index);
         public void onAvatarLoaded(int index);
     }
-
 }
 
 
