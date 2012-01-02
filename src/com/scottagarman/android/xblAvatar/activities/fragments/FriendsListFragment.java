@@ -5,10 +5,12 @@ import android.support.v4.app.ListFragment;
 import android.view.*;
 import com.scottagarman.android.xblAvatar.R;
 import com.scottagarman.android.xblAvatar.adapters.FriendsListAdapter;
+import com.scottagarman.android.xblAvatar.managers.AvatarsManager;
 
-public class FriendsListFragment extends ListFragment {
+public class FriendsListFragment extends ListFragment implements AvatarsManager.AvatarsManagerListener {
     private ViewGroup mView;
     private FriendsListAdapter mAdapter;
+    private AvatarsManager mAvatarsManager;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -16,7 +18,10 @@ public class FriendsListFragment extends ListFragment {
 
         setHasOptionsMenu(true);
 
-        mAdapter = new FriendsListAdapter(getActivity());
+        mAvatarsManager = new AvatarsManager(getActivity());
+        mAvatarsManager.registerListener(this);
+        mAvatarsManager.loadAvatars();
+        mAdapter = new FriendsListAdapter(getActivity(), mAvatarsManager);
     }
 
     @Override
@@ -41,4 +46,19 @@ public class FriendsListFragment extends ListFragment {
         inflater.inflate(R.menu.friends_list_menu, menu);
     }
 
+    /* avatars manager*/
+    @Override
+    public void onAvatarsLoaded() {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAvatarThumbLoaded(int index) {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAvatarLoaded(int index) {
+
+    }
 }

@@ -7,14 +7,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.scottagarman.android.xblAvatar.R;
+import com.scottagarman.android.xblAvatar.managers.AvatarsManager;
 
 public class FriendsListAdapter extends BaseAdapter {
     private Context mCtx;
     private LayoutInflater mInflater;
+    private AvatarsManager mAvatarsManager;
 
-    public FriendsListAdapter(Context ctx) {
+    public FriendsListAdapter(Context ctx, AvatarsManager manager) {
         mCtx = ctx;
         mInflater = (LayoutInflater) mCtx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mAvatarsManager = manager;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class FriendsListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.text.setText(""+ i);
+        holder.text.setText(mAvatarsManager.getAvatarUrlAtIndex(i));
 
         return convertView;
     }
@@ -41,7 +44,7 @@ public class FriendsListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 14;
+        return mAvatarsManager.getSize();
     }
 
     @Override
@@ -51,6 +54,6 @@ public class FriendsListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 }
